@@ -40,14 +40,15 @@ def binary_chop(T):
             continue
         elif A[middle] == T:
             return middle
-        else:
-            return -1
+    return -1
 
+print("binary search: ")
 print(binary_chop(1_000_000))
 print(binary_chop(1_000_002))
 print(binary_chop(3_600_000))
 print(binary_chop(3_600_001))
 print(binary_chop(7_486_366))
+
 
 def slow_chop(T):
     # gets the element index
@@ -56,6 +57,7 @@ def slow_chop(T):
             return i
     return -1
 
+print("\nslow search: ")
 print(slow_chop(3_600_000))
 print(slow_chop(3_600_001)) # this one will take a long time to run, as it will iterate through the entire list to find the element.
 
