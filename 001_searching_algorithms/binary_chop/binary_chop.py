@@ -1,5 +1,6 @@
 import random
 # binary search algorithm/binary chop
+# one of the most efficient divide-and-conquer search algorithms 
 """
     Note: Never use a list of 1 billion elements in a test, it will take forever to run. In 
     CPython, this would consume tens of gigabytes of memory and likely cause a MemoryError.
