@@ -81,8 +81,9 @@ def slow_sort_2(A):
         if not keep_loop: break
     return A
 
+
 """
-def algo_test_3(list_to_sort):
+def algo_test_4(list_to_sort):
     # working with a bidimensional (2 x n/2) matrix without creating it itself
     # mtx_dimen
     Y, X = (2, len(list_to_sort) // 2)
@@ -120,4 +121,88 @@ def test_slow_sort_2():
     D_sorted_2 = slow_sort_2(D.copy())
     print(D_sorted_2[:10], D_sorted_2[-10:])
 
-test_slow_sort_2()
+# test_slow_sort_2()
+
+def slow_sort_3(A):
+    left = 0
+    right = len(A) - 1
+    mid = len(A) // 2
+    left_stopped = False
+    right_stopped = False
+    full_sorted = False
+
+    # ---
+    while not full_sorted:
+        curr_average = 0
+        curr_val_list = []
+        while not left_stopped:
+            if left < len(A) and A[left] > A[mid]:
+                left_stopped = True
+            else:
+                left += 1
+            if left >= len(A):
+                left = 0
+                break
+            curr_val_list.append(A[left])
+        
+        while not right_stopped:
+            if right >= 0 and A[right] < A[mid]:
+                right_stopped = True
+            else:
+                right -= 1
+            if right < 0:
+                right = len(A)-1
+                break
+            curr_val_list.append(A[right])
+        if not left_stopped or not right_stopped:
+            continue
+        curr_average = sum(curr_val_list)//len(curr_val_list)
+
+        A[left], A[right] = A[right], A[left]
+        left_stopped = False
+        right_stopped = False
+        print(A)
+
+        # if right < left:
+        #     mid = mid+1 if A[mid] > curr_average else mid-1
+        # print(mid)
+        #     mid -= 1
+        # elif left >= len(A)-1:
+        #     mid += 1
+
+        # if mid < len(A):
+        #     A[left], A[right] = A[right], A[left]
+        #     left_stopped = False
+        #     right_stopped = False
+        #     print(A)
+        #     continue
+        
+        # full_sorted = True
+    return A
+
+
+B = [2, 3, 1, 5, 4, 2, 8, 6, 7, 9, 0] # start
+"""
+B = [2, 3, 1, 5, 4, 2, 8, 6, 7, 9, 0] # move left from idx 0 to 1
+B = [2, 3, 1, 5, 4, 2, 8, 6, 7, 9, 0] # keep right in idx = len(B)-1 = 9
+B = [2, 0, 1, 5, 4, 2, 8, 6, 7, 9, 3] # replace value in idx=1 to idx=9
+B = [2, 0, 1, 5, 4, 2, 8, 6, 7, 9, 3] # move left from idx 1 to 3
+B = [2, 0, 1, 5, 4, 2, 8, 6, 7, 9, 3] # move right from idx 9 to 2 (right<left -> CHANGE MID)
+# mid = 2, left = 0 and right = 9
+B = [2, 0, 1, 5, 4, 2, 8, 6, 7, 9, 3]
+B = [0, 2, 1, 5, 4, 2, 8, 6, 7, 9, 3]
+B = [0, 2, 1, 5, 4, 2, 8, 6, 7, 9, 3] # move right from idx 1 to 0; move left from 0 to 1 (right<left -> CHANGE MID)
+# l=1, r=0
+"""
+
+
+#---------------------------------
+# B = [0, 3, 1, 5, 4, 2, 8, 6, 7, 9, 2]
+# B = [0, 1, 3, 5, 4, 2, 8, 6, 7, 9, 2]
+#   [0, right=1, left=3, 5, 4, 2, 8, 6, 7, 9, 2]
+
+print(slow_sort_3(B))
+
+
+
+
