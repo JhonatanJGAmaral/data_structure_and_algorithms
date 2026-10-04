@@ -123,6 +123,9 @@ def test_slow_sort_2():
 
 # test_slow_sort_2()
 
+import matplotlib.pyplot as plt
+import numpy as np
+
 def slow_sort_3(A):
     left = 0
     right = len(A) - 1
@@ -130,10 +133,11 @@ def slow_sort_3(A):
     left_stopped = False
     right_stopped = False
     full_sorted = False
-
+    curr_average = 0
+    num_elem = 0
+    count_loop = 0
     # ---
     while not full_sorted:
-        curr_average = 0
         curr_val_list = []
         while not left_stopped:
             if left < len(A) and A[left] > A[mid]:
@@ -143,6 +147,7 @@ def slow_sort_3(A):
             if left >= len(A):
                 left = 0
                 break
+            num_elem += 1
             curr_val_list.append(A[left])
         
         while not right_stopped:
@@ -153,18 +158,36 @@ def slow_sort_3(A):
             if right < 0:
                 right = len(A)-1
                 break
+            num_elem += 1
             curr_val_list.append(A[right])
+        
         if not left_stopped or not right_stopped:
+        # if not left_stopped and not right_stopped:
+            count_loop += 1
+            print("aaaaa")
+            if count_loop > 1:
+                print("bbbb")
+                xpoints = np.array([idx for idx in enumerate(A)])
+                ypoints = np.array(A)
+
+                plt.plot(xpoints, ypoints)
+                plt.axis('off')
+                # plt.xticks(list(range(0, 101, 10)))
+                # plt.yticks([])
+                plt.show()
+
+                return
             continue
-        curr_average = sum(curr_val_list)//len(curr_val_list)
+
+        curr_average += sum(curr_val_list)//num_elem
 
         A[left], A[right] = A[right], A[left]
         left_stopped = False
         right_stopped = False
-        print(A)
+        # print(A)
 
-        # if right < left:
-        #     mid = mid+1 if A[mid] > curr_average else mid-1
+        if right < left:
+            mid = mid+1 if A[mid] > curr_average else mid-1
         # print(mid)
         #     mid -= 1
         # elif left >= len(A)-1:
@@ -180,8 +203,21 @@ def slow_sort_3(A):
         # full_sorted = True
     return A
 
+def min_max_scale(numbers):
+    low = min(numbers)
+    high = max(numbers)
+    
+    # Handle the case where all numbers are the same
+    if low == high:
+        return [0.0 for _ in numbers]
+        
+    return [(x - low) / (high - low) for x in numbers]
 
-B = [2, 3, 1, 5, 4, 2, 8, 6, 7, 9, 0] # start
+# B = [2, 3, 1, 5, 4, 2, 8, 6, 7, 9, 0] # start
+# B = generate_random_list(10000, lower_bound=0, upper_bound=100)
+# B = generate_random_list(100, lower_bound=0, upper_bound=10000)
+B = generate_random_list(100, lower_bound=0, upper_bound=10000)
+B = [num * 100 for num in min_max_scale(B)]
 """
 B = [2, 3, 1, 5, 4, 2, 8, 6, 7, 9, 0] # move left from idx 0 to 1
 B = [2, 3, 1, 5, 4, 2, 8, 6, 7, 9, 0] # keep right in idx = len(B)-1 = 9
