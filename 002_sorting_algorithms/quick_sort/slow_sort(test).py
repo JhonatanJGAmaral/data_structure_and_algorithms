@@ -231,14 +231,54 @@ B = [0, 2, 1, 5, 4, 2, 8, 6, 7, 9, 3] # move right from idx 1 to 0; move left fr
 # l=1, r=0
 """
 
-
 #---------------------------------
 # B = [0, 3, 1, 5, 4, 2, 8, 6, 7, 9, 2]
 # B = [0, 1, 3, 5, 4, 2, 8, 6, 7, 9, 2]
 #   [0, right=1, left=3, 5, 4, 2, 8, 6, 7, 9, 2]
 
-print(slow_sort_3(B))
+# print(slow_sort_3(B))
 
 
+
+# def slow_sort_4(A, old_mid=0):
+def slow_sort_4(A, j=10):
+    if not(leng := len(A)):
+        return A
+    elif not(mid := leng//2):
+        return A
+
+    equal = []
+    smaller = []
+    higher = []
+
+    for i in range(0, leng):
+        if A[i] < A[mid]:
+            smaller.append(A[i])
+        elif A[i] == A[mid]:
+            equal.append(A[i])
+        elif A[i] > A[mid]:
+            higher.append(A[i])
+
+    A = smaller + equal + higher
+    # return slow_sort_4(A, A[mid]) if A[old_mid] != A[mid] else A
+    j-=1
+    return slow_sort_4(A, j) if j>=0 else A
+
+A = [3, 9, 111, 5, 18, int((2**(1/2))*100), 77, 66, 1048, 0, 45_678]
+# A = slow_sort_4(A, len(A)//2)
+A = slow_sort_4(A, 10)
+print(A)
+B = generate_random_list(1000, lower_bound=0, upper_bound=1000)
+# B = slow_sort_4(B, len(B)//2)
+B = slow_sort_4(B, 995)
+xpoints = np.array([idx for idx in enumerate(B)])
+ypoints = np.array(B)
+
+plt.plot(xpoints, ypoints)
+plt.axis('off')
+# plt.xticks(list(range(0, 101, 10)))
+# plt.yticks([])
+plt.show()
+print(B)
 
 
